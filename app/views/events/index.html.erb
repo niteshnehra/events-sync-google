@@ -1,0 +1,28 @@
+<h1>Google Calendar Events</h1>
+<%= link_to 'Sync Google Calendar Events', sync_google_calendar_events_path, method: :get, class: 'btn btn-primary' %>
+<% if @events.any? %>
+  <% @events.group_by(&:calendar_id).each do |calendar_id, events| %>
+    <h2>Calendar: <%= calendar_id %></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Summary</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% events.each do |event| %>
+          <tr id="event_<%= event.id %>"> 
+            <td><%= event.summary %></td>
+             <td><%= event.start_time ? event.start_time.strftime('%B %d, %Y %I:%M %p') : 'Start time not available' %></td>
+            <td><%= event.end_time ? event.end_time.strftime('%B %d, %Y %I:%M %p') : 'End time not available' %></td>
+           
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% else %>
+  <p>No events found.</p>
+<% end %>
